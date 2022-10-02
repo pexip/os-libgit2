@@ -1,0 +1,9 @@
+The DFSG version string is added because the /deps directory is removed from the
+upstream tarball since it's not used in any part of the packaging.
+
+ -- Russell Sim <russell.sim@gmail.com>  Sat, 29 Jul 2017 18:32:25 +0200
+
+I replaced the DFSG suffix with DS, because the removal is merely reducing the
+source tarball in size, not fixing any DFSG violations.
+
+ -- Timo Röhling <roehling@debian.org>  Sun, 28 Aug 2022 14:08:22 +0200

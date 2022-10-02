@@ -1,0 +1,18 @@
+From: =?utf-8?q?Timo_R=C3=B6hling?= <roehling@debian.org>
+Date: Sun, 28 Aug 2022 17:42:55 +0200
+Subject: Use bash for shell script with bashisms
+
+---
+ tests/resources/push.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tests/resources/push.sh b/tests/resources/push.sh
+index 3e77fb5..54ef3dd 100644
+--- a/tests/resources/push.sh
++++ b/tests/resources/push.sh
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/bin/bash
+ #creates push_src repo for libgit2 push tests.
+ set -eu
+ 

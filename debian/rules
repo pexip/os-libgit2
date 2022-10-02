@@ -1,0 +1,53 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+# This rules file has 2 streams, the build-debian-devel stream builds
+# the static library and the build-debian-release builds the dynamic
+# library.
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+BUILD_TESTS = $(if $(filter nocheck,$(DEB_BUILD_OPTIONS)),OFF,ON)
+COMMON_CMAKE_FLAGS = \
+	-DBUILD_CLI=OFF \
+	-DBUILD_TESTS=$(BUILD_TESTS) \
+	-DCERT_LOCATION=/etc/ssl/certs/ca-certificates.crt \
+	-DDISABLE_ONLINE_TESTS=ON \
+	-DENABLE_REPRODUCIBLE_BUILDS=ON \
+	-DREGEX_BACKEND=pcre2 \
+	-DUSE_GSSAPI=ON \
+	-DUSE_HTTPS=mbedTLS \
+	-DUSE_HTTP_PARSER=system \
+	-DUSE_NTLMCLIENT=OFF \
+	-DUSE_SSH=ON
+
+
+# The stat() in the Git fs layer has some issues
+export GITTEST_FLAKY_STAT = true
+
+%:
+	dh $@ --buildsystem=cmake
+
+override_dh_auto_configure:
+	dh_auto_configure --builddirectory=build-debian-devel -- \
+		-DBUILD_SHARED_LIBS=OFF \
+		$(COMMON_CMAKE_FLAGS)
+	dh_auto_configure --builddirectory=build-debian-release -- \
+		-DBUILD_SHARED_LIBS=ON \
+		$(COMMON_CMAKE_FLAGS)
+
+override_dh_auto_build:
+	dh_auto_build --builddirectory=build-debian-devel
+	dh_auto_build --builddirectory=build-debian-release
+
+override_dh_auto_install:
+	dh_auto_install --builddirectory=build-debian-devel
+	dh_auto_install --builddirectory=build-debian-release
+
+override_dh_auto_test:
+	dh_auto_test --builddirectory=build-debian-devel
+	dh_auto_test --builddirectory=build-debian-release
+

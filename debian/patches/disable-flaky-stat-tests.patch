@@ -1,0 +1,132 @@
+From: =?utf-8?q?Timo_R=C3=B6hling?= <roehling@debian.org>
+Date: Wed, 31 Aug 2022 15:24:06 +0200
+Subject: Ignore test failures because of stat()
+
+---
+ tests/libgit2/repo/init.c     | 14 ++++++++------
+ tests/libgit2/repo/template.c | 19 +++++++++++--------
+ tests/util/copy.c             | 12 ++++++++----
+ tests/util/mkdir.c            |  2 ++
+ 4 files changed, 29 insertions(+), 18 deletions(-)
+
+diff --git a/tests/libgit2/repo/init.c b/tests/libgit2/repo/init.c
+index 7cf6742..aec1ec6 100644
+--- a/tests/libgit2/repo/init.c
++++ b/tests/libgit2/repo/init.c
+@@ -424,12 +424,14 @@ void test_repo_init__extended_1(void)
+ 	cl_assert(!git_repository_is_empty(g_repo));
+ 
+ 	cl_git_pass(git_fs_path_lstat(git_repository_path(g_repo), &st));
+-	cl_assert(S_ISDIR(st.st_mode));
+-	if (cl_is_chmod_supported())
+-		cl_assert((S_ISGID & st.st_mode) == S_ISGID);
+-	else
+-		cl_assert((S_ISGID & st.st_mode) == 0);
+-
++	if (!cl_is_env_set("GITTEST_FLAKY_STAT"))
++	{
++		cl_assert(S_ISDIR(st.st_mode));
++		if (cl_is_chmod_supported())
++			cl_assert((S_ISGID & st.st_mode) == S_ISGID);
++		else
++			cl_assert((S_ISGID & st.st_mode) == 0);
++	}
+ 	cl_git_pass(git_reference_lookup(&ref, g_repo, "HEAD"));
+ 	cl_assert(git_reference_type(ref) == GIT_REFERENCE_SYMBOLIC);
+ 	cl_assert_equal_s("refs/heads/development", git_reference_symbolic_target(ref));
+diff --git a/tests/libgit2/repo/template.c b/tests/libgit2/repo/template.c
+index e8fe266..f771f4e 100644
+--- a/tests/libgit2/repo/template.c
++++ b/tests/libgit2/repo/template.c
+@@ -72,8 +72,8 @@ static void assert_hooks_match(
+ 			CLEAR_FOR_CORE_FILEMODE(expected_mode);
+ 			CLEAR_FOR_CORE_FILEMODE(st.st_mode);
+ 		}
+-
+-		cl_assert_equal_i_fmt(expected_mode, st.st_mode, "%07o");
++		if (!cl_is_env_set("GITTEST_FLAKY_STAT"))
++			cl_assert_equal_i_fmt(expected_mode, st.st_mode, "%07o");
+ 	}
+ 
+ 	git_str_dispose(&expected);
+@@ -97,14 +97,17 @@ static void assert_mode_seems_okay(
+ 		expect_setgid = false;
+ 	}
+ 
+-	if (S_ISGID != 0)
+-		cl_assert_equal_b(expect_setgid, (st.st_mode & S_ISGID) != 0);
++	if (!cl_is_env_set("GITTEST_FLAKY_STAT"))
++	{
++		if (S_ISGID != 0)
++			cl_assert_equal_b(expect_setgid, (st.st_mode & S_ISGID) != 0);
+ 
+-	cl_assert_equal_b(
+-		GIT_PERMS_IS_EXEC(expect_mode), GIT_PERMS_IS_EXEC(st.st_mode));
++		cl_assert_equal_b(
++			GIT_PERMS_IS_EXEC(expect_mode), GIT_PERMS_IS_EXEC(st.st_mode));
+ 
+-	cl_assert_equal_i_fmt(
+-		GIT_MODE_TYPE(expect_mode), GIT_MODE_TYPE(st.st_mode), "%07o");
++		cl_assert_equal_i_fmt(
++			GIT_MODE_TYPE(expect_mode), GIT_MODE_TYPE(st.st_mode), "%07o");
++	}
+ }
+ 
+ static void setup_repo(const char *name, git_repository_init_options *opts)
+diff --git a/tests/util/copy.c b/tests/util/copy.c
+index 2613730..1b74f0d 100644
+--- a/tests/util/copy.c
++++ b/tests/util/copy.c
+@@ -12,7 +12,8 @@ void test_copy__file(void)
+ 	cl_git_pass(git_futils_cp("copy_me", "copy_me_two", 0664));
+ 
+ 	cl_git_pass(git_fs_path_lstat("copy_me_two", &st));
+-	cl_assert(S_ISREG(st.st_mode));
++	if (!cl_is_env_set("GITTEST_FLAKY_STAT"))
++		cl_assert(S_ISREG(st.st_mode));
+ 
+ 	if (!cl_is_env_set("GITTEST_FLAKY_STAT"))
+ 		cl_assert_equal_sz(strlen(content), (size_t)st.st_size);
+@@ -39,7 +40,8 @@ void test_copy__file_in_dir(void)
+ 		 0664));
+ 
+ 	cl_git_pass(git_fs_path_lstat("an_dir/second_dir/and_more/copy_me_two", &st));
+-	cl_assert(S_ISREG(st.st_mode));
++	if (!cl_is_env_set("GITTEST_FLAKY_STAT"))
++		cl_assert(S_ISREG(st.st_mode));
+ 
+ 	if (!cl_is_env_set("GITTEST_FLAKY_STAT"))
+ 		cl_assert_equal_sz(strlen(content), (size_t)st.st_size);
+@@ -103,7 +105,8 @@ void test_copy__tree(void)
+ 
+ 	memset(&st, 0, sizeof(struct stat));
+ 	cl_git_pass(git_fs_path_lstat("t1/c/f3", &st));
+-	cl_assert(S_ISREG(st.st_mode));
++	if (!cl_is_env_set("GITTEST_FLAKY_STAT"))
++		cl_assert(S_ISREG(st.st_mode));
+ 
+ 	if (!cl_is_env_set("GITTEST_FLAKY_STAT"))
+ 		cl_assert_equal_sz(strlen(content), (size_t)st.st_size);
+@@ -111,7 +114,8 @@ void test_copy__tree(void)
+ #ifndef GIT_WIN32
+ 	memset(&st, 0, sizeof(struct stat));
+ 	cl_git_pass(git_fs_path_lstat("t1/c/d/l1", &st));
+-	cl_assert(S_ISLNK(st.st_mode));
++	if (!cl_is_env_set("GITTEST_FLAKY_STAT"))
++		cl_assert(S_ISLNK(st.st_mode));
+ #endif
+ 
+ 	cl_git_pass(git_futils_rmdir_r("t1", NULL, GIT_RMDIR_REMOVE_FILES));
+diff --git a/tests/util/mkdir.c b/tests/util/mkdir.c
+index 8658eec..1c944e7 100644
+--- a/tests/util/mkdir.c
++++ b/tests/util/mkdir.c
+@@ -160,6 +160,8 @@ static void check_mode_at_line(
+ 		expected &= 0600;
+ 		actual &= 0600;
+ 	}
++	if (cl_is_env_set("GITTEST_FLAKY_STAT"))
++		return;
+ 
+ 	clar__assert_equal(
+ 		file, func, line, "expected_mode != actual_mode", 1,

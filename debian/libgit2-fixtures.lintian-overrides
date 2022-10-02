@@ -1,0 +1,2 @@
+libgit2-fixtures: executable-not-elf-or-script [usr/share/doc/libgit2-fixtures/examples/*]
+libgit2-fixtures: package-contains-vcs-control-file [usr/share/doc/libgit2-fixtures/examples/*]
