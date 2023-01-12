@@ -1,8 +1,9 @@
 Source: libgit2
 Section: libs
 Priority: optional
-Maintainer: Utkarsh Gupta <utkarsh@debian.org>
-Uploaders: Pirate Praveen <praveen@debian.org>,
+Maintainer: Pexip AS <packaging@pexip.com>
+XSBC-Pexip-Original-Maintainer: Utkarsh Gupta <utkarsh@debian.org>
+XSBC-Pexip-Original-Uploaders: Pirate Praveen <praveen@debian.org>,
 	   Mohammed Bilal <mdbilal@disroot.org>
 Build-Depends: debhelper-compat (= 13),
                python3-minimal:any,
@@ -21,6 +22,7 @@ Homepage: https://libgit2.github.com/
 Vcs-Git: https://salsa.debian.org/debian/libgit2.git
 Vcs-Browser: https://salsa.debian.org/debian/libgit2
 Rules-Requires-Root: no
+XS-Pexip-Upstream: http://ftp.debian.org/debian/ bookworm
 
 Package: libgit2-dev
 Architecture: any

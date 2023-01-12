@@ -1,3 +1,9 @@
+libgit2 (1.5.0+ds-6pexip1) pexip; urgency=medium
+
+  * Prepare Pexip packaging
+
+ -- Huw Jones <huw@pexip.com>  Thu, 12 Jan 2023 13:10:18 +0000
+
 libgit2 (1.5.0+ds-6) unstable; urgency=medium
 
   * Team upload.
