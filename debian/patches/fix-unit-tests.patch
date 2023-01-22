@@ -8,7 +8,7 @@ Subject: Fix unit tests
  2 files changed, 7 insertions(+), 62 deletions(-)
 
 diff --git a/tests/libgit2/CMakeLists.txt b/tests/libgit2/CMakeLists.txt
-index 213076f..9a56bd7 100644
+index e10456b..d85d5dd 100644
 --- a/tests/libgit2/CMakeLists.txt
 +++ b/tests/libgit2/CMakeLists.txt
 @@ -65,7 +65,7 @@ endif()
@@ -18,8 +18,8 @@ index 213076f..9a56bd7 100644
 -add_clar_test(libgit2_tests invasive            -v -score::ftruncate -sfilter::stream::bigfile -sodb::largefiles -siterator::workdir::filesystem_gunk -srepo::init -srepo::init::at_filesystem_root)
 +add_clar_test(libgit2_tests invasive            -v -sfilter::stream::bigfile -sodb::largefiles -siterator::workdir::filesystem_gunk -srepo::init -srepo::init::at_filesystem_root)
  if(NOT DISABLE_ONLINE_TESTS)
- 	add_clar_test(libgit2_tests online              -v -sonline -xonline::customcert)
- 	add_clar_test(libgit2_tests online_customcert   -v -sonline::customcert)
+ add_clar_test(libgit2_tests online              -v -sonline -xonline::customcert -xonline::clone::ssh_auth_methods)
+ add_clar_test(libgit2_tests online_customcert   -v -sonline::customcert)
 diff --git a/tests/libgit2/network/url/parse.c b/tests/libgit2/network/url/parse.c
 index 8149ba5..729302e 100644
 --- a/tests/libgit2/network/url/parse.c

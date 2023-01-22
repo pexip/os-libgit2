@@ -4,30 +4,23 @@ Subject: disable-online-tests
 
 Skip tests that needs an active internet connection
 ---
- tests/libgit2/CMakeLists.txt | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+ tests/libgit2/CMakeLists.txt | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/tests/libgit2/CMakeLists.txt b/tests/libgit2/CMakeLists.txt
-index 27f421a..213076f 100644
+index 280b9a8..e10456b 100644
 --- a/tests/libgit2/CMakeLists.txt
 +++ b/tests/libgit2/CMakeLists.txt
-@@ -66,10 +66,12 @@ endif()
+@@ -66,6 +66,7 @@ endif()
  include(AddClarTest)
  add_clar_test(libgit2_tests offline             -v -xonline)
  add_clar_test(libgit2_tests invasive            -v -score::ftruncate -sfilter::stream::bigfile -sodb::largefiles -siterator::workdir::filesystem_gunk -srepo::init -srepo::init::at_filesystem_root)
--add_clar_test(libgit2_tests online              -v -sonline -xonline::customcert)
--add_clar_test(libgit2_tests online_customcert   -v -sonline::customcert)
--add_clar_test(libgit2_tests gitdaemon           -v -sonline::push)
--add_clar_test(libgit2_tests ssh                 -v -sonline::push -sonline::clone::ssh_cert -sonline::clone::ssh_with_paths -sonline::clone::path_whitespace_ssh)
--add_clar_test(libgit2_tests proxy               -v -sonline::clone::proxy)
--add_clar_test(libgit2_tests auth_clone          -v -sonline::clone::cred)
--add_clar_test(libgit2_tests auth_clone_and_push -v -sonline::clone::push -sonline::push)
 +if(NOT DISABLE_ONLINE_TESTS)
-+	add_clar_test(libgit2_tests online              -v -sonline -xonline::customcert)
-+	add_clar_test(libgit2_tests online_customcert   -v -sonline::customcert)
-+	add_clar_test(libgit2_tests gitdaemon           -v -sonline::push)
-+	add_clar_test(libgit2_tests ssh                 -v -sonline::push -sonline::clone::ssh_cert -sonline::clone::ssh_with_paths -sonline::clone::path_whitespace_ssh)
-+	add_clar_test(libgit2_tests proxy               -v -sonline::clone::proxy)
-+	add_clar_test(libgit2_tests auth_clone          -v -sonline::clone::cred)
-+	add_clar_test(libgit2_tests auth_clone_and_push -v -sonline::clone::push -sonline::push)
+ add_clar_test(libgit2_tests online              -v -sonline -xonline::customcert -xonline::clone::ssh_auth_methods)
+ add_clar_test(libgit2_tests online_customcert   -v -sonline::customcert)
+ add_clar_test(libgit2_tests gitdaemon           -v -sonline::push)
+@@ -73,3 +74,4 @@ add_clar_test(libgit2_tests ssh                 -v -sonline::push -sonline::clon
+ add_clar_test(libgit2_tests proxy               -v -sonline::clone::proxy)
+ add_clar_test(libgit2_tests auth_clone          -v -sonline::clone::cred)
+ add_clar_test(libgit2_tests auth_clone_and_push -v -sonline::clone::push -sonline::push)
 +endif()
