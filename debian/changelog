@@ -1,3 +1,12 @@
+libgit2 (1.5.1+ds-1) unstable; urgency=high
+
+  * Team upload.
+  * New upstream version 1.5.1+ds
+    - Fix CVE-2023-22742: No certificate checking for SSH remotes
+  * Bump Standards-Version to 4.6.2
+
+ -- Timo Röhling <roehling@debian.org>  Sun, 22 Jan 2023 22:03:29 +0100
+
 libgit2 (1.5.0+ds-6pexip1) pexip; urgency=medium
 
   * Prepare Pexip packaging
