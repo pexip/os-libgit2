@@ -1,3 +1,9 @@
+libgit2 (1.5.1+ds-1pexip2) pexip-bookworm; urgency=medium
+
+  * Initial bookworm build
+
+ -- Mark Hymers <mark.hymers@pexip.com>  Thu, 16 Nov 2023 10:06:19 +0000
+
 libgit2 (1.5.1+ds-1pexip1) pexip; urgency=medium
 
   * New upstream release
