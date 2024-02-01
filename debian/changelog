@@ -1,3 +1,9 @@
+libgit2 (1.5.1+ds-1+pexip24u4) pexip-bookworm; urgency=medium
+
+  * New versioning scheme
+
+ -- Mark Hymers <mark.hymers@pexip.com>  Thu, 01 Feb 2024 16:04:57 +0000
+
 libgit2 (1.5.1+ds-1pexip3) pexip-bookworm; urgency=medium
 
   * Bookworm build for product distribution
