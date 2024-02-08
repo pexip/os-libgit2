@@ -1,3 +1,39 @@
+libgit2 (1.7.2+ds-1) unstable; urgency=medium
+
+  * New upstream version 1.7.2+ds
+    - Fix CVE-2024-24575: Denial of service in git_revparse_single
+      (Closes: #1063415)
+    - Fix CVE-2024-24577: Use-after-free in git_index_add
+      (Closes: #1063416)
+  * Build-depend on pkgconf instead of pkg-config
+
+ -- Timo Röhling <roehling@debian.org>  Thu, 08 Feb 2024 09:10:45 +0100
+
+libgit2 (1.7.1+ds-2) unstable; urgency=medium
+
+  * Upload to unstable.
+
+ -- Timo Röhling <roehling@debian.org>  Sat, 02 Dec 2023 20:29:31 +0100
+
+libgit2 (1.7.1+ds-1) experimental; urgency=medium
+
+  * Update d/copyright
+  * New upstream version 1.7.1+ds
+  * Bump SONAME to 1.7
+
+ -- Timo Röhling <roehling@debian.org>  Fri, 08 Sep 2023 10:45:39 +0200
+
+libgit2 (1.6.4+ds-1) experimental; urgency=medium
+
+  * New upstream version 1.6.4+ds
+  * Refresh patches
+    - Drop fix-unit-tests.patch (no longer needed)
+  * Bump SONAME to 1.6
+  * Add myself to uploaders
+  * Update d/symbols
+
+ -- Timo Röhling <roehling@debian.org>  Mon, 19 Jun 2023 20:45:38 +0200
+
 libgit2 (1.5.1+ds-1) unstable; urgency=high
 
   * Team upload.

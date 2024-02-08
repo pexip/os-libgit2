@@ -1,11 +1,19 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: libgit2
 Source: https://libgit2.github.com/
-Files-Excluded: deps/*
-Comment: No bundled dependencies are required to build libgit2
+Files-Excluded: deps/chromium-zlib
+                deps/http-parser
+		deps/ntlmclient
+		deps/pcre
+		deps/winhttp
+		deps/zlib
+Comment: Remove unneeded bundled dependencies
+ Note: xdiff has been moved from libgit2 sources to deps and is currently
+       hardcoded to be used from there. This may change once xdiff
+       is released (and Debian packaged) separately.
 
 Files: *
-Copyright: 2009-2022, the libgit2 contributors
+Copyright: 2009-2023, the libgit2 contributors
 License: GPL-2 with linking exception, origin admission
 
 Files: examples/*
@@ -17,25 +25,12 @@ Files: tests/clar/*
 Copyright: 2011, Vicent Marti
 License: MIT
 
-Files: src/libgit2/xdiff/*
-       src/libgit2/xdiff/xdiffi.c
-       src/libgit2/xdiff/xdiffi.h
-       src/libgit2/xdiff/xemit.c
-       src/libgit2/xdiff/xemit.h
-       src/libgit2/xdiff/xinclude.h
-       src/libgit2/xdiff/xmacros.h
-       src/libgit2/xdiff/xmerge.c
-       src/libgit2/xdiff/xpatience.c
-       src/libgit2/xdiff/xprepare.c
-       src/libgit2/xdiff/xprepare.h
-       src/libgit2/xdiff/xtypes.h
-       src/libgit2/xdiff/xutils.c
-       src/libgit2/xdiff/xutils.h
+Files: deps/xdiff/*
 Copyright: 2003, Davide Libenzi
            2003-2016, Davide Libenzi, Johannes E. Schindelin
 License: LGPL-2.1+
 
-Files: src/libgit2/xdiff/xhistogram.c
+Files: deps/xdiff/xhistogram.c
 Copyright: 2009-2010, Google Inc
 License: BSD-3-clause
 

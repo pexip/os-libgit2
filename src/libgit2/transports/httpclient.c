@@ -837,6 +837,11 @@ GIT_INLINE(int) server_setup_from_url(
 	git_http_server *server,
 	git_net_url *url)
 {
+	GIT_ASSERT_ARG(url);
+	GIT_ASSERT_ARG(url->scheme);
+	GIT_ASSERT_ARG(url->host);
+	GIT_ASSERT_ARG(url->port);
+
 	if (!server->url.scheme || strcmp(server->url.scheme, url->scheme) ||
 	    !server->url.host || strcmp(server->url.host, url->host) ||
 	    !server->url.port || strcmp(server->url.port, url->port)) {
@@ -1539,6 +1544,15 @@ int git_http_client_new(
 
 	*out = client;
 	return 0;
+}
+
+/* Update the options of an existing httpclient instance. */
+void git_http_client_set_options(
+	git_http_client *client,
+	git_http_client_options *opts)
+{
+	if (opts)
+		memcpy(&client->opts, opts, sizeof(git_http_client_options));
 }
 
 GIT_INLINE(void) http_server_close(git_http_server *server)

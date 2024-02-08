@@ -2,6 +2,7 @@ From: =?utf-8?q?Timo_R=C3=B6hling?= <roehling@debian.org>
 Date: Sun, 28 Aug 2022 17:42:55 +0200
 Subject: Use bash for shell script with bashisms
 
+Forwarded: https://github.com/libgit2/libgit2/pull/6581
 ---
  tests/resources/push.sh | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)

@@ -2,6 +2,7 @@ From: =?utf-8?q?Timo_R=C3=B6hling?= <roehling@debian.org>
 Date: Wed, 31 Aug 2022 15:24:06 +0200
 Subject: Ignore test failures because of stat()
 
+Forwarded: not-needed
 ---
  tests/libgit2/repo/init.c     | 14 ++++++++------
  tests/libgit2/repo/template.c | 19 +++++++++++--------
@@ -10,10 +11,10 @@ Subject: Ignore test failures because of stat()
  4 files changed, 29 insertions(+), 18 deletions(-)
 
 diff --git a/tests/libgit2/repo/init.c b/tests/libgit2/repo/init.c
-index 7cf6742..aec1ec6 100644
+index d78ec06..17a0ae2 100644
 --- a/tests/libgit2/repo/init.c
 +++ b/tests/libgit2/repo/init.c
-@@ -424,12 +424,14 @@ void test_repo_init__extended_1(void)
+@@ -443,12 +443,14 @@ void test_repo_init__extended_1(void)
  	cl_assert(!git_repository_is_empty(g_repo));
  
  	cl_git_pass(git_fs_path_lstat(git_repository_path(g_repo), &st));
