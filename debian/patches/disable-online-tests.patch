@@ -3,23 +3,25 @@ Date: Sun, 28 Aug 2022 17:12:49 +0200
 Subject: disable-online-tests
 
 Skip tests that needs an active internet connection
+
+Forwarded: not-needed
 ---
  tests/libgit2/CMakeLists.txt | 2 ++
  1 file changed, 2 insertions(+)
 
 diff --git a/tests/libgit2/CMakeLists.txt b/tests/libgit2/CMakeLists.txt
-index 280b9a8..e10456b 100644
+index af70f55..246da96 100644
 --- a/tests/libgit2/CMakeLists.txt
 +++ b/tests/libgit2/CMakeLists.txt
 @@ -66,6 +66,7 @@ endif()
  include(AddClarTest)
  add_clar_test(libgit2_tests offline             -v -xonline)
- add_clar_test(libgit2_tests invasive            -v -score::ftruncate -sfilter::stream::bigfile -sodb::largefiles -siterator::workdir::filesystem_gunk -srepo::init -srepo::init::at_filesystem_root)
+ add_clar_test(libgit2_tests invasive            -v -sfilter::stream::bigfile -sodb::largefiles -siterator::workdir::filesystem_gunk -srepo::init -srepo::init::at_filesystem_root -sonline::clone::connect_timeout_default)
 +if(NOT DISABLE_ONLINE_TESTS)
- add_clar_test(libgit2_tests online              -v -sonline -xonline::customcert -xonline::clone::ssh_auth_methods)
+ add_clar_test(libgit2_tests online              -v -sonline -xonline::customcert)
  add_clar_test(libgit2_tests online_customcert   -v -sonline::customcert)
  add_clar_test(libgit2_tests gitdaemon           -v -sonline::push)
-@@ -73,3 +74,4 @@ add_clar_test(libgit2_tests ssh                 -v -sonline::push -sonline::clon
+@@ -75,3 +76,4 @@ add_clar_test(libgit2_tests ssh                 -v -sonline::push -sonline::clon
  add_clar_test(libgit2_tests proxy               -v -sonline::clone::proxy)
  add_clar_test(libgit2_tests auth_clone          -v -sonline::clone::cred)
  add_clar_test(libgit2_tests auth_clone_and_push -v -sonline::clone::push -sonline::push)
