@@ -1,3 +1,9 @@
+libgit2 (1.7.2+ds-1+pexip24u1) pexip; urgency=medium
+
+  * New upstream release to support cargo backport.
+
+ -- Mark Hymers <mark.hymers@pexip.com>  Fri, 16 Feb 2024 15:15:45 +0000
+
 libgit2 (1.7.2+ds-1) unstable; urgency=medium
 
   * New upstream version 1.7.2+ds
